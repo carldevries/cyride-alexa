@@ -1,0 +1,46 @@
+{
+	"intents" : [
+		{
+			"intent" : "NextArrival",
+			"slots" : [
+				{
+					"name" : "RouteNumber",
+					"type" : "LIST_OF_ROUTE_NUMBERS"
+				},
+				{
+					"name" : "RouteColor",
+					"type" : "LIST_OF_ROUTE_COLORS"
+				},
+				{
+					"name" : "RouteDirection",
+					"type" : "LIST_OF_CARDINAL_DIRECTIONS"
+				},
+				{
+					"name" : "StreetAddress",
+					"type" : "AMAZON.PostalAddress"
+				}
+			]
+		},
+		{
+			"intent" : "ClosestStop",
+			"slots" : [
+				{
+					"name" : "RouteNumber",
+					"type" : "LIST_OF_ROUTE_NUMBERS"
+				},
+				{
+					"name" : "RouteColor",
+					"type" : "LIST_OF_ROUTE_COLORS"
+				},
+				{
+					"name" : "RouteDirection",
+					"type" : "LIST_OF_CARDINAL_DIRECTIONS"
+				},
+				{
+					"name" : "StreetAddress",
+					"type" : "AMAZON.PostalAddress"
+				}
+			]
+		}
+	]
+}
