@@ -65,10 +65,10 @@ def get_next_vehicle_prediction(predictions_list):
                 for prediction in prediction_list:
                     time = float(prediction.attrib['minutes'])
                     if vehicle_prediction == None or time < vehicle_prediction['minutes']:
-                        vehicle_prediction = {
-                                                        'vehicle' : prediction.attrib['vehicle'],
-                                                        'minutes' : time
-                                                        }
+                        vehicle_prediction = 	{
+                                                    'vehicle' : prediction.attrib['vehicle'],
+                                                    'minutes' : time
+                                                }
 
                 return vehicle_prediction
 
@@ -78,9 +78,9 @@ def get_vehicle_location(vehicle_tag, vehicles):
 
     for vehicle in vehicles:
         if 'vehicle' == vehicle.tag and vehicle.attrib['id'] == vehicle_tag:
-            return {
-                            'lat' : float(vehicle.attrib['lat']),
-                            'lon' : float(vehicle.attrib['lon'])
-                            }
+            return 	{
+                        'lat' : float(vehicle.attrib['lat']),
+                        'lon' : float(vehicle.attrib['lon'])
+                    }
 
     return None
