@@ -1,63 +1,93 @@
+# nextbus is a module for making GET requests to NextBus public XML feed.
+# NextBus is a company which contracts with transportation organizations to
+# gather static and real time vehicle data and provide useful informatin such
+# as speed, direction, and ETAs for a bus and a given stop.  The API is free
+# to use and more information on contraints, proceedures, and formats can be
+# found under the docs folder
 import zlib
-import httpgetclient
+from httpgetclient import send_request
 
 host = 'webservices.nextbus.com'
 path = '/service/publicXMLFeed'
-headers =	{
-			    'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                'Accept-Encoding' : 'gzip, deflate, sdch',
-                'Accept-Language' : 'en-US,en;q=0.8',
-                'Host' : host,
-                'Connection' : 'keep-alive',
-                'Upgrade-Insecure-Requests' : '1',
-                'Cache-Control' : 'max-age=0'
-            }
+headers = {
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, sdch',
+            'Accept-Language': 'en-US,en;q=0.8',
+            'Host': host,
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Cache-Control': 'max-age=0'
+          }
+
+# get_agency_list calls the NextBus API to request a list of agencies who allow
+# their bus data to be shared publicly.
+# Inputs: NA
+#
+# Outputs:
+#   @return - A string containing the NextBus agency list in XML format.
+
 
 def get_agency_list():
 
-    return _process_request({
-							    'command' : 'agencyList'
-                            })
+    params = {
+                'command': 'agencyList'
+             }
+    return _process_request(params)
+
+# get_route_list comment
+
 
 def get_route_list(agency):
 
-    return _process_request({
-							    'command' : 'routeList',
-							    'a' : agency
-                            })
+    params = {
+                'command': 'routeList',
+                'a': agency
+             }
+    return _process_request(params)
+
+# get_route_config comment
+
 
 def get_route_config(agency, route):
 
-    return _process_request({
-                                'command' : 'routeConfig',
-                                'a' : agency,
-                                'r' : route
-                            })
+    params = {
+                'command': 'routeConfig',
+                'a': agency,
+                'r': route
+             }
+    return _process_request(params)
+
+# get_predictions comment
+
 
 def get_predictions(agency, route, stop):
 
-    return _process_request({
-                                'command' : 'predictions',
-                                'a' : agency,
-                                'r' : route,
-                                's' : stop
-                            })
+    params = {
+                'command': 'predictions',
+                'a': agency,
+                'r': route,
+                's': stop
+             }
+    return _process_request(params)
+
+# get_vehicle_locations comment
+
 
 def get_vehicle_locations(agency, route):
 
-    return _process_request({
-                                'command' : 'vehicleLocations',
-                                'a' : agency,
-                                'r' : route,
-                                't' : '0'
-                            })
+    params = {
+                'command': 'vehicleLocations',
+                'a': agency,
+                'r': route,
+                't': '0'
+             }
+    return _process_request(params)
+
+# _process_request comment
+
 
 def _process_request(params):
 
-    request = httpgetclient.build_request(host, path, params, headers)
-    response = httpgetclient.send_request(request)
-    assert 200 == response.getcode(), 'The NextBus ' + params['command'] + ' response status code is ' + str(response.getcode())
-    return _decompress(response.read())
-
-def _decompress(data):
-    return zlib.decompress(data, 16 + zlib.MAX_WBITS)
+    response = send_request('http://' + host, path, params, headers)
+    content = zlib.decompress(response.read(), 16 + zlib.MAX_WBITS)
+    return content
