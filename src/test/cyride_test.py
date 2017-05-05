@@ -1,106 +1,56 @@
 import pytest
-import json
-import os
+from json import load
+from mock import Mock
+
+# The test resources path with respect to the base application directory
+resources_path = 'src\\test\\resources\\amazon\\'
+
+# Import and mock the get_device_address call. amazon.get_device_address must
+# be imported and mocked before importing the lambda_function module so the
+# mock is properly bound.  If it's not the mock will fail silently.
+from .. import amazon
+mock_echo_device_location = open(resources_path + 'alexa_device_address_api_response.json').read()
+amazon.get_device_address = Mock(return_value=mock_echo_device_location)
+
 from .. import cyride
 
-request_one =   {
-                    'request': {
-                        'type': 'IntentRequest',
-                        'requestId': 'EdwRequestId.5a69e678-7c52-4179-b410-21420e71a717',
-                        'locale': 'en-US',
-                        'timestamp': '2017-03-24T23:50:05Z',
-                        'intent': {
-                            'name': 'WhenIntent',
-                            'slots': {
-                                'RouteDirection': {
-                                    'name': 'RouteDirection',
-                                    'value': 'West'
-                                },
-                                'StreetAddress': {
-                                    'name': 'StreetAddress',
-                                        'value': '2823 Lincoln way'
-                                },
-                                'RouteColor': {
-                                    'name': 'RouteColor',
-                                    'value': 'red'
-                                },
-                                'RouteNumber': {
-                                    'name': 'RouteNumber',
-                                    'value': '1A'
-                                }
-                            }
-                        }
-                    }
-                }
+# FIXTURES
 
-request_two =   {
-                    'request':{
-                        'locale':'en-US',
-                        'timestamp':'2017-03-25T02:24:14Z',
-                        'type':'IntentRequest',
-                        'requestId':'EdwRequestId.ca19883d-7b0f-4a54-88f8-349721b2cb37',
-                        'intent':{
-                            'slots':{
-                                'RouteDirection':{
-                                    'name':'RouteDirection'
-                                },
-                                'StreetAddress':{
-                                        'name':'StreetAddress',
-                                'value':'2823 Lincoln way'
-                                },
-                                'RouteNumber':{
-                                    'name':'RouteNumber',
-                                    'value':'5'
-                                },
-                                'RouteColor':{
-                                    'name':'RouteColor',
-                                    'value':'yellow'
-                               }
-                            },
-                            'name':'WhenIntent'
-                        }
-                    }
-                }
+# set_environment_varibles sets the AGENCY_NAME and MAPQUEST_API_KEY which are
+# expected to be set in the AWS enviornment.  The environment variables need to
+# be available for each test.  The monkeypatch module can only be used in a
+# fixture with a function level scope so unfortunately this runs for each test.
+# The properties parameter comes from the conftest.py properties fixture.
 
-request_three = {
-                    'request':{
-                        'locale':'en-US',
-                        'timestamp':'2017-03-25T02:24:14Z',
-                        'type':'IntentRequest',
-                        'requestId':'EdwRequestId.ca19883d-7b0f-4a54-88f8-349721b2cb37',
-                        'intent':{
-                            'slots':{
-                                'RouteDirection':{
-                                    'name':'RouteDirection'
-                                },
-                                'RouteNumber':{
-                                   'name':'RouteNumber',
-                                     'value':'5'
-                                },
-                                'RouteColor':{
-                                    'name':'RouteColor',
-                                    'value':'yellow'
-                                }
-                            },
-                            'name':'WhenIntent'
-                        }
-                    }
-                }
 
-def test_cyride_one():
-    os.environ['AGENCY_NAME'] = 'CyRide'
-    response = cyride.lambda_handler(request_one, '')
+@pytest.fixture(autouse=True)
+def set_environment_variables(monkeypatch, properties):
+
+    monkeypatch.setenv('AGENCY_NAME', 'cyride')
+    monkeypatch.setenv('MAPQUEST_API_KEY', properties['MAPQUEST_API_KEY'])
+
+# next_arrival_event_one loads the specified request to be passed to the
+# cyride-alexa application entry point.  It also sets the ALEXA_DEVICE_ID and
+# ALEXA_CONSENT_TOKEN which are needed for requesting device location data from
+# Amazon, but due to certificate issues that functions mocked above.
+
+
+@pytest.fixture(scope='module')
+def next_arrival_event_one(properties):
+
+    file = open(resources_path + 'cyride_alexa_next_arrival_request_one.json')
+    event = load(file)
+
+    system = event['context']['System']
+    system['device']['deviceId'] = properties['ALEXA_DEVICE_ID']
+    system['user']['permissions']['consentToken'] = properties['ALEXA_CONSENT_TOKEN']
+    return event
+
+# Tests
+
+
+@pytest.mark.usefixture('set_environment_variables')
+def test_cyride_one(next_arrival_event_one):
+
+    response = cyride.ride(next_arrival_event_one, '')
     assert 'Hello!' == response['response']['outputSpeech']['text']
-
-def test_cyride_two():
-    os.environ['AGENCY_NAME'] = 'CyRide'
-    response = cyride.lambda_handler(request_two, '')
-    assert 'Hello!' == response['response']['outputSpeech']['text']
-
-def test_cyride_assert_basic_response():
-    pass
-
-def test_cyride_assert_no_streetaddress_returns_error():
-    os.environ['AGENCY_NAME'] = 'CyRide'
-    response = cyride.lambda_handler(request_three, '')
-    assert 'You must provide a street address. Please try again.' == response['response']['outputSpeech']['text']

@@ -1,8 +1,13 @@
-# nextbusdataparser_test contains tests for making sure the data parsing
-# functions correctly parse static
+# nextbusdataparser_integration_test contains integration tests to ensure the
+# nextbusdataparser functions are able to parse messages directly from NextBus.
+# The tests require the ability to send and receive a GET request to the
+# NextBus public XML feed.
 import pytest
 import xml.etree.ElementTree as ET
+import logging
+
 from .. import nextbusdataparser
+from .. import nextbus
 
 resources_path = 'src\\test\\resources\\nextbus\\'
 
@@ -12,7 +17,6 @@ resources_path = 'src\\test\\resources\\nextbus\\'
      ('Collegetown Shuttle', 'collegetown'),
      ('Dart', None)])
 def test_getAgencyTag(agency_list_response, agency_title, expected_agency_tag):
-
     agency_list_elements = ET.fromstring(agency_list_response)
     agency_tag = nextbusdataparser.get_agency_tag(agency_title, agency_list_elements)
     assert expected_agency_tag == agency_tag
@@ -82,7 +86,6 @@ def test_get_next_vehicle_prediction__valid_data(predictions_response, expected_
 
 @pytest.mark.parametrize('expected_vehicle_data', [(None)])
 def test_get_next_vehicle_prediction__no_data(predictions_response_no_data, expected_vehicle_data):
-
     predictions_elements = ET.fromstring(predictions_response_no_data)
     vehicle_data = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
     assert expected_vehicle_data == vehicle_data
@@ -90,7 +93,6 @@ def test_get_next_vehicle_prediction__no_data(predictions_response_no_data, expe
 
 @pytest.mark.parametrize('expected_vehicle_data', [(None)])
 def test_get_next_vehicle_prediction__invalid_data(predictions_response_invalid_data, expected_vehicle_data):
-
     predictions_elements = ET.fromstring(predictions_response_invalid_data)
     vehicle_data = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
     assert expected_vehicle_data == vehicle_data
@@ -100,7 +102,6 @@ def test_get_next_vehicle_prediction__invalid_data(predictions_response_invalid_
     [('503', {'lat': 42.0254, 'lon': -93.65395}),
      ('111', None)])
 def test_get_vehicle_location(vehicle_locations_response, vehicle_tag, expected_location):
-
     vehicle_location_elements = ET.fromstring(vehicle_locations_response)
     vehicle_location = nextbusdataparser.get_vehicle_location(vehicle_tag, vehicle_location_elements)
     assert expected_location == vehicle_location
@@ -110,12 +111,12 @@ def test_get_vehicle_location(vehicle_locations_response, vehicle_tag, expected_
 
 @pytest.fixture(scope='module')
 def agency_list_response():
-    return open(resources_path + 'agency_list_response.xml').read()
+    return nextbus.get_agency_list()
 
 
 @pytest.fixture(scope='module')
 def route_list_response():
-    return open(resources_path + 'cyride_route_list_response.xml').read()
+    return nextbus.get_route_list('cyride')
 
 
 @pytest.fixture(scope='module')
@@ -150,3 +151,7 @@ def vehicle_locations_response():
 def vehicle_location_response_no_vehicles():
     f = open(resources_path + 'cyride_vehicle_locations_no_vehicles_response.xml')
     return f.read()
+
+line_format = '%(asctime)s - %(levelname)s - %(module)s.%(funcName)s %(lineno)d: %(message)s'
+log_file = 'logs\\nextbusdataparser_integration_test.log'
+logging.basicConfig(format=line_format, filename=log_file, level=logging.DEBUG)
