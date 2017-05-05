@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-src/test/resources/amazon/alexa_request.properties
 .cache/*
 logs/
+dist/
+mapquest_api_key.properties
+alexa_request.properties
