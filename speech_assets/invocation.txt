@@ -1,3 +1,15 @@
+NextArrival When will the next {RouteNumber} {RouteColor} {RouteDirection} bus arrive at 
+NextArrival What time will the next {RouteNumber} {RouteColor} {RouteDirection} bus arrive 
+
+NextArrival When will the next {RouteNumber} {RouteColor} bus arrive at 
+NextArrival What time will the next {RouteNumber} {RouteColor} bus arrive 
+
+NextArrival When will the next {RouteNumber} {RouteDirection} bus arrive at 
+NextArrival What time will the next {RouteNumber} {RouteDirection} bus arrive 
+
+NextArrival When will the next {RouteColor} {RouteDirection} bus arrive at 
+NextArrival What time will the next {RouteColor} {RouteDirection} bus arrive 
+
 NextArrival When will the next {RouteNumber} {RouteColor} {RouteDirection} bus arrive at {StreetAddress}
 NextArrival What time will the next {RouteNumber} {RouteColor} {RouteDirection} bus arrive {StreetAddress}
 
