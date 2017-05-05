@@ -1,0 +1,6 @@
+<body copyright="All data copyright CyRide 2017.">
+    <vehicle id="503" routeTag="811" dirTag="811_0_var0" lat="42.0254" lon="-93.65395" secsSinceReport="3" predictable="true" heading="270" speedKmHr="20"/>
+    <vehicle id="1007" routeTag="811" dirTag="811_0_var0" lat="42.0333" lon="-93.6564" secsSinceReport="3" predictable="true" heading="270" speedKmHr="30"/>
+    <vehicle id="2564" routeTag="811" dirTag="811_0_var0" lat="42.0444" lon="-93.65210" secsSinceReport="3" predictable="true" heading="270" speedKmHr="40"/>
+    <lastTime time="1489886297533"/>
+</body>

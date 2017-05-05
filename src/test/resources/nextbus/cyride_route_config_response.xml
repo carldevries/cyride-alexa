@@ -1,0 +1,50 @@
+<body copyright="All data copyright CyRide 2017.">
+    <route tag="811" title="1 Red West" color="cc3333" oppositeColor="ffffff" latMin="42.01197" latMax="42.05117" lonMin="-93.68158" lonMax="-93.61051">
+        <stop tag="1150" title="North Grand Mall" lat="42.0495599" lon="-93.62179" stopId="1150"/>
+        <stop tag="1151" title="Duff Ave. at Kellogg Ave." lat="42.05117" lon="-93.6185699" stopId="1151"/>
+        <stop tag="1152" title="Duff Ave. at Northwood Dr." lat="42.0484" lon="-93.6141599" stopId="1152"/>
+        <stop tag="1153" title="Duff Ave. at 24th St." lat="42.04532" lon="-93.6141199" stopId="1153"/>
+        <stop tag="1154" title="Duff Ave. at 22nd St." lat="42.04402" lon="-93.61279" stopId="1154"/>
+        <stop tag="1155" title="Duff Ave. at 20th St." lat="42.0417499" lon="-93.61071" stopId="1155"/>
+        <stop tag="1156" title="Duff Ave. at O&apos;Neil Dr." lat="42.0400299" lon="-93.61071" stopId="1156"/>
+        <stop tag="1157" title="Duff Ave. at 16th St." lat="42.0380699" lon="-93.61069" stopId="1157"/>
+        <stop tag="1158" title="Duff Ave. at 14th St." lat="42.03541" lon="-93.61067" stopId="1158"/>
+        <stop tag="1159" title="Duff Ave. at 12th St." lat="42.03328" lon="-93.61063" stopId="1159"/>
+        <stop tag="1160" title="Mary Greely Hospital" lat="42.0316199" lon="-93.61058" stopId="1160"/>
+        <stop tag="1161" title="Duff Ave. at 9th St." lat="42.0298199" lon="-93.6105399" stopId="1161"/>
+        <stop tag="1162" title="Duff Ave. at 8th St." lat="42.02873" lon="-93.61051" stopId="1162"/>
+        <stop tag="1163" title="6th St. at Duff Ave." lat="42.02694" lon="-93.61108" stopId="1163"/>
+        <stop tag="1164" title="Ames Public Library" lat="42.0265599" lon="-93.6121199" stopId="1164"/>
+        <stop tag="1165" title="5th St. at Kellogg Ave." lat="42.0259599" lon="-93.6140699" stopId="1165"/>
+        <stop tag="1166" title="City Hall" lat="42.0258099" lon="-93.61785" stopId="1166"/>
+        <stop tag="1167" title="Allan Dr. at Grand Ave." lat="42.0256399" lon="-93.62045" stopId="1167"/>
+        <stop tag="1168" title="Lincoln Way at Elm Ave." lat="42.02291" lon="-93.6227999" stopId="1168"/>
+        <stop tag="1169" title="Lincoln Way at Maple Ave." lat="42.02284" lon="-93.6255099" stopId="1169"/>
+        <stop tag="1419" title="Lincoln Way at Hazel Ave." lat="42.02284" lon="-93.62721" stopId="1419"/>
+        <stop tag="1170" title="Lincoln Way at Russell Ave." lat="42.02283" lon="-93.62857" stopId="1170"/>
+        <stop tag="1238" title="Lincoln Way at Hilton Coliseum" lat="42.02281" lon="-93.6351799" stopId="1238"/>
+        <stop tag="1171" title="Lincoln Way at Beach Ave." lat="42.0227599" lon="-93.64006" stopId="1171"/>
+        <stop tag="1172" title="Lincoln Way at Union Dr." lat="42.02278" lon="-93.64224" stopId="1172"/>
+        <stop tag="1173" title="Lincoln Way at Lynn Ave." lat="42.02282" lon="-93.6469699" stopId="1173"/>
+        <stop tag="1174" title="Lake Laverne" lat="42.0236267" lon="-93.649643" stopId="1174"/>
+        <stop tag="1175" title="Enrollment Services Building" lat="42.02445" lon="-93.64954" stopId="1175"/>
+        <stop tag="1176" title="Student Services" lat="42.0251838" lon="-93.6507781" stopId="1176"/>
+        <stop tag="1177" title="Beyer Hall" lat="42.0253699" lon="-93.65296" stopId="1177"/>
+        <stop tag="1178" title="West St. at Hyland Ave." lat="42.02534" lon="-93.65542" stopId="1178"/>
+        <stop tag="1179" title="Hyland Ave. at Lincoln Way" lat="42.02303" lon="-93.6555999" stopId="1179"/>
+        <stop tag="1180" title="Lincoln Way at State Ave." lat="42.02273" lon="-93.6594199" stopId="1180"/>
+        <stop tag="1181" title="Lincoln Way at Wilmoth Ave." lat="42.02277" lon="-93.66208" stopId="1181"/>
+        <stop tag="1182" title="Lincoln Way at Franklin Ave." lat="42.0228" lon="-93.6655899" stopId="1182"/>
+        <stop tag="1183" title="Lincoln Way at Marshall Ave." lat="42.0228999" lon="-93.66994" stopId="1183"/>
+        <stop tag="1184" title="Lincoln Way at Hickory Dr." lat="42.02296" lon="-93.67358" stopId="1184"/>
+        <stop tag="1185" title="S. Dakota Ave. at Lincoln Swing" lat="42.0222299" lon="-93.6787099" stopId="1185"/>
+        <stop tag="1186" title="S. Dakota Ave. at Todd Dr." lat="42.0211199" lon="-93.6787" stopId="1186"/>
+        <stop tag="1187" title="S. Dakota Ave. at Clemens Blvd." lat="42.0176399" lon="-93.67868" stopId="1187"/>
+        <stop tag="1188" title="Steinbeck St. at S. Dakota Ave." lat="42.01458" lon="-93.6792599" stopId="1188"/>
+        <stop tag="1189" title="Dickenson Ave. at Steinbeck St." lat="42.0142299" lon="-93.68107" stopId="1189"/>
+        <stop tag="1190" title="Dickenson Ave. at Mortensen Rd." lat="42.0128999" lon="-93.68158" stopId="1190"/>
+        <stop tag="1191" title="Mortensen Rd. at Coconino Rd." lat="42.01206" lon="-93.6760599" stopId="1191"/>
+        <stop tag="1192" title="Mortensen Rd. at Dotson Dr." lat="42.01197" lon="-93.67355" stopId="1192"/>
+        <stop tag="1193" title="Ames Middle School" lat="42.0121999" lon="-93.67143" stopId="1193"/>
+    </route>
+</body>

@@ -1,0 +1,31 @@
+<body copyright="All data copyright CyRide 2017.">
+    <route tag="811" title="1 Red West"/>
+    <route tag="810" title="1 Red East"/>
+    <route tag="813" title="1A Red West"/>
+    <route tag="812" title="1A Red East"/>
+    <route tag="814" title="1B Red East"/>
+    <route tag="821" title="2 Green West"/>
+    <route tag="820" title="2 Green East"/>
+    <route tag="831" title="3 Blue South"/>
+    <route tag="830" title="3 Blue North"/>
+    <route tag="832" title="3A Blue South"/>
+    <route tag="833" title="3B Blue North"/>
+    <route tag="840" title="4 Gray"/>
+    <route tag="841" title="4A Gray"/>
+    <route tag="850" title="5 Yellow"/>
+    <route tag="861" title="6 Brown South"/>
+    <route tag="860" title="6 Brown North"/>
+    <route tag="862" title="6A Towers"/>
+    <route tag="863" title="6B Brown"/>
+    <route tag="870" title="7 Purple"/>
+    <route tag="890" title="9 Plum"/>
+    <route tag="910" title="10 Pink"/>
+    <route tag="921" title="21 Cardinal"/>
+    <route tag="922" title="22 Gold"/>
+    <route tag="923" title="23 Orange"/>
+    <route tag="991" title="A West"/>
+    <route tag="992" title="A East"/>
+    <route tag="993" title="B"/>
+    <route tag="994" title="C"/>
+    <route tag="995" title="D"/>
+</body>

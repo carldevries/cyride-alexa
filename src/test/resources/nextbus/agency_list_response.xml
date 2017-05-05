@@ -1,0 +1,8 @@
+<body copyright="All data copyright agencies listed below and NextBus Inc 2017.">
+    <agency tag="west-hollywood" title="City of West Hollywood" regionTitle="California-Southern"/>
+    <agency tag="collegetown" title="Collegetown Shuttle" regionTitle="Maryland"/>
+    <agency tag="configdev" title="Config Stuff" regionTitle="Other"/>
+    <agency tag="cyride" title="CyRide" regionTitle="Iowa"/>
+    <agency tag="dc-streetcar" title="DC Streetcar" regionTitle="District of Columbia"/>
+    <agency tag="umn-twin" title="University of Minnesota" regionTitle="Minnesota"/>
+</body>

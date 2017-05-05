@@ -1,0 +1,11 @@
+<body copyright="All data copyright CyRide 2017.">
+    <predictions agencyTitle="CyRide" routeTitle="1A Red East" routeTag="812" stopTitle="Lincoln Way at Beedle Dr." stopTag="1202" dirTitleBecauseNoPredictions="Kildee / Bessey">
+    </predictions>
+    <predictions agencyTitle="CyRide" routeTitle="1 Red East" routeTag="810" stopTitle="Lincoln Way at Beedle Dr." stopTag="1202">
+        <direction title="Mall via Hospital">
+            <prediction epochTime="1489378631095" seconds="5544" minutes="92" isDeparture="false" affectedByLayover="true" dirTag="810_1_var3" vehicle="2115" block="7704" tripTag="71742" />
+            <prediction epochTime="1489378631095" seconds="4688" minutes="78" isDeparture="false" affectedByLayover="true" dirTag="810_1_var3" vehicle="1116" block="7704" tripTag="71742" />
+            <prediction epochTime="1489378631095" seconds="6192" minutes="103" isDeparture="false" affectedByLayover="true" dirTag="810_1_var3" vehicle="2117" block="7704" tripTag="71742" />
+        </direction>
+    </predictions>
+</body>
