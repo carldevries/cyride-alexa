@@ -21,9 +21,14 @@ def get_device_address(device_id, consent_token, host):
 
     return _process_request(address_path, headers, host)
 
-# _process_request invokes httpgetclient to send the request and extracts the
+# _process_request uses httpgetclient to send the request and extracts the
 # content as a string from the response.
-
+# Inputs:
+#   path - The path to the resource which will return the desired data.
+#   headers - The headers required to make a successful HTTP GET request.
+#   host - The host portion of the URI including the protocol (e.g. https:\\).
+# Outputs:
+#   return - The content of the response read from the body of the response.
 
 def _process_request(path, headers, host):
 

@@ -9,7 +9,8 @@ resources_path = 'src\\test\\resources\\amazon\\'
 # be imported and mocked before importing the lambda_function module so the
 # mock is properly bound.  If it's not the mock will fail silently.
 from .. import amazon
-mock_echo_device_location = open(resources_path + 'alexa_device_address_api_response.json').read()
+alexa_device_address = 'alexa_device_address_api_response.json'
+mock_echo_device_location = open(resources_path + alexa_device_address).read()
 amazon.get_device_address = Mock(return_value=mock_echo_device_location)
 
 from .. import cyride
@@ -28,6 +29,7 @@ def set_environment_variables(monkeypatch, properties):
 
     monkeypatch.setenv('AGENCY_NAME', 'cyride')
     monkeypatch.setenv('MAPQUEST_API_KEY', properties['MAPQUEST_API_KEY'])
+    monkeypatch.setenv('ENV', 'TEST')
 
 # next_arrival_event_one loads the specified request to be passed to the
 # cyride-alexa application entry point.  It also sets the ALEXA_DEVICE_ID and

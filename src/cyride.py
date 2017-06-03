@@ -57,7 +57,7 @@ def configure_logger():
 
     line_format = '%(asctime)s - %(levelname)s - %(module)s.%(funcName)s %(lineno)d: %(message)s'
     logfile = 'cyride.log'
-    if 'PROD' != os.environ['ENVIRONMENT']:
+    if 'PROD' != os.environ['ENV']:
         log_file = 'logs\\cyride.log'
 
     logging.basicConfig(format=line_format, filename=logfile, level=logging.INFO)

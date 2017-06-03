@@ -31,7 +31,7 @@
                 },
                 "RouteNumber":{
                     "name":"RouteNumber",
-                    "value":"1 a",
+                    "value":"1",
                     "confirmationStatus":"NONE"
                 },
                 "RouteColor":{
