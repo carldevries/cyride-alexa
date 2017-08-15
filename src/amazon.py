@@ -7,7 +7,7 @@ import httpgetclient
 #   device_id - The Alexa enabled device's unique id.
 #   consent_token - The user's consent token.  It may not be None or ''.
 # Outputs:
-#   response - A string representation of the content returned in the response.
+#   A string representation of the content returned in the response.
 
 
 def get_device_address(device_id, consent_token, host):
@@ -28,7 +28,7 @@ def get_device_address(device_id, consent_token, host):
 #   headers - The headers required to make a successful HTTP GET request.
 #   host - The host portion of the URI including the protocol (e.g. https:\\).
 # Outputs:
-#   return - The content of the response read from the body of the response.
+#   The content of the response read from the body of the response.
 
 def _process_request(path, headers, host):
 

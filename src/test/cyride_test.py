@@ -55,4 +55,4 @@ def next_arrival_event_one(properties):
 def test_cyride_one(next_arrival_event_one):
 
     response = cyride.ride(next_arrival_event_one, '')
-    assert 'Hello!' == response['response']['outputSpeech']['text']
+    assert 'Hello!' == response['response']['outputSpeech']['ssml']

@@ -80,3 +80,18 @@ def build_response(text, type='PlainText', shouldEndSession=True):
                 'shouldEndSession': shouldEndSession
             }
            }
+
+def build_prediction_response(text, time):
+    
+    time_response = '<say-as interpret-as="time">' + time + '\'0"</say-as>'
+    text = text.replace('<time>', time_response)
+    return {
+            'version': '1.0',
+            'response': {
+                'outputSpeech': {
+                    'type': 'SSML',
+                    'ssml': '<speak>' + text + '</speak>' 
+                },
+                'shouldEndSession': True
+            }
+           }

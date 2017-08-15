@@ -5,7 +5,7 @@ from json import loads
 import os
 import xml.etree.ElementTree as ET
 
-from helpers import get_slot_inputs, get_alexa_device_location_inputs, build_response, get_geocode_lat_lon_coordinates
+from helpers import get_slot_inputs, get_alexa_device_location_inputs, build_response, get_geocode_lat_lon_coordinates, build_prediction_response
 from nextbus import get_route_list, get_route_config, get_predictions
 from nextbusdataparser import get_route_tags, get_closest_stop_tag, get_next_vehicle_prediction
 from mapquest import geocode, reverse_geocode
@@ -27,8 +27,8 @@ def next_bus_handler(requested_route, echo_coordinates):
 
         # Determine which route to use.
         requested_route_tag = requested_route_tags[0]
-
-        requested_route_config = get_route_config(agency_name, requested_route_tag)
+        logging.debug(requested_route_tag)
+        requested_route_config = get_route_config(agency_name, requested_route_tag, True)
         route_config_elements = ET.fromstring(requested_route_config)
         latitude = echo_coordinates['lat']
         longitude = echo_coordinates['lon']
@@ -100,7 +100,7 @@ def next_arrival_handler(event):
             consent_token = device_location_inputs['consent_token']
             api_endpoint = device_location_inputs['api_endpoint']
 
-            address_response = get_device_address(device_id, address_response, api_endpoint)
+            address_response = get_device_address(device_id, consent_token, api_endpoint)
             address_data = loads(address_response)
 
             # Even if a token exists an address may not be returned. Check it.
@@ -122,10 +122,11 @@ def next_arrival_handler(event):
                     pass
 
                 minutes_str = str(prediction['minutes'])
+                minutes_str = minutes_str.split('.')[0]
                 response_text = 'The next ' + requested_route
-                response_text = response_text + ' will arrive in '
-                response_text = response_text + minutes_str + ' minutes.'
-                return build_response(response_text, 'PlainText', False)
+                response_text = response_text + ' bus will arrive in <time>.'
+                # response_text = response_text + minutes_str + ' minutes.'
+                return build_prediction_response(response_text, minutes_str)
             else:
                 # Consent token exists, but not address was returned.
                 # Try something...

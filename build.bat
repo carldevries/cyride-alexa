@@ -9,3 +9,4 @@ copy /y src\*.py dist\app\
 
 powershell -Command "& Compress-Archive -Path dist\app\* -DestinationPath dist\app.zip -CompressionLevel NoCompression
 
+echo Build Finished!
