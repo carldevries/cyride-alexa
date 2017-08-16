@@ -4,11 +4,11 @@ from haversineformula import haversine_formula_deg
 # get_agency_tag comment
 
 
-def get_agency_tag(agency_name, agency_list):
+def get_agency(agency_name, agency_list):
 
     for agency in agency_list:
         if agency.attrib['title'] == agency_name:
-            return agency.attrib['tag']
+            return agency
 
     return None
 

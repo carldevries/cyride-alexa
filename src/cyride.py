@@ -61,6 +61,10 @@ def intent_request_handler(event):
 # Amazon to use a different formater. In all other environments (i.e. testing)
 # The root logger is returned with no modifications and all settings are
 # configured at the test class level.
+# Inputs:
+#   NA
+# Outputs:
+#   logger - A logger configured for either production or defined elsewhere.
 
 
 def configure_logger():

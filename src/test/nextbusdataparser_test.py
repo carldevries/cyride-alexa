@@ -9,14 +9,19 @@ resources_path = 'src\\test\\resources\\nextbus\\'
 
 @pytest.mark.parametrize('agency_title, expected_agency_tag',
     [('CyRide', 'cyride'),
-     ('Collegetown Shuttle', 'collegetown'),
-     ('Dart', None)])
-def test_getAgencyTag(agency_list_response, agency_title, expected_agency_tag):
+     ('Collegetown Shuttle', 'collegetown')])
+def test_get_agency__agency_is_valid(agency_list_response, agency_title, expected_agency_tag):
 
     agency_list_elements = ET.fromstring(agency_list_response)
-    agency_tag = nextbusdataparser.get_agency_tag(agency_title, agency_list_elements)
-    assert expected_agency_tag == agency_tag
+    agency = nextbusdataparser.get_agency(agency_title, agency_list_elements)
+    assert expected_agency_tag == agency.attrib['tag']
 
+@pytest.mark.usefixture('agency_list_response')
+def test_get_agency__agency_is_invalid(agency_list_response):
+
+    agency_list_elements = ET.fromstring(agency_list_response)
+    agency = nextbusdataparser.get_agency('Dart', agency_list_elements)
+    assert None == agency
 
 @pytest.mark.parametrize('route_name, expected_route_tags',
     [('1 Red West', '811'),
