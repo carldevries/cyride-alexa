@@ -2,10 +2,19 @@
 
 for /r %%d in (*.pyc) do rm %%d
 
-for /r %%d in (.cache) do rmdir /s /q %%d
+for /r %%D in (.cache) do (
 
-for /r %%d in (__pycache__) do rmdir /s /q %%d
+    if exist %%~fsD rmdir /s /q %%~fsD
+)
 
-for /r %%d in (*.bak) do rm /s/q %%d
+for /r %%D in (__pycache__) do (
 
+    if exist %%~fsD rmdir /s /q %%~fsD
+)
+
+echo.
+echo ##########################################################################
+echo.
 echo Clean Finished!
+echo.
+echo ##########################################################################

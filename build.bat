@@ -9,4 +9,9 @@ copy /y src\*.py dist\app\
 
 powershell -Command "& Compress-Archive -Path dist\app\* -DestinationPath dist\app.zip -CompressionLevel NoCompression
 
+echo.
+echo ##########################################################################
+echo.
 echo Build Finished!
+echo.
+echo ##########################################################################
