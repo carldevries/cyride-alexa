@@ -3,7 +3,6 @@
 # modules designed to handle the request.
 import logging
 import os
-
 from helpers import build_response
 from nextarrivalintent import next_arrival_handler
 
@@ -22,9 +21,9 @@ from nextarrivalintent import next_arrival_handler
 
 def ride(event, context):
 
-    configure_logger()
-    logging.info('***Start processing a new request.***')
-    logging.debug(event)
+    logger = configure_logger()
+    logger.info('***Start processing a new request.***')
+    logger.debug(event)
 
     request = event['request']
     response = {}
@@ -37,7 +36,13 @@ def ride(event, context):
 
     return response
 
-# intent_request_handler comment
+# intent_request_handler determines if an intent is speciefied and if so maps
+# the request to the correct handler for the intent.
+# Inputs:
+#   event - The event object containing cyride, application, and user request
+#      which is an argument passed to the lambda handler.
+# Outputs:
+#   A JSON response to be processed by Alexa/Echo unit.
 
 
 def intent_request_handler(event):
@@ -50,14 +55,28 @@ def intent_request_handler(event):
         elif 'ClosestStop' == intent['name']:
             pass
 
-# configure_logger comment
+# configure_logger configures the root logger for the Cyride-Alexa application
+# based on the environment the application is running in. In production, the
+# logger is set to log at the INFO level and updates the handlers set by
+# Amazon to use a different formater. In all other environments (i.e. testing)
+# The root logger is returned with no modifications and all settings are
+# configured at the test class level.
 
 
 def configure_logger():
 
     line_format = '%(asctime)s - %(levelname)s - %(module)s.%(funcName)s %(lineno)d: %(message)s'
-    logfile = 'cyride.log'
-    if 'PROD' != os.environ['ENV']:
-        log_file = 'logs\\cyride.log'
+    
+    if 'PROD' == os.environ['ENV']:
 
-    logging.basicConfig(format=line_format, filename=logfile, level=logging.INFO)
+        formatter = logging.Formatter(line_format)
+        logger = logging.getLogger()
+        logger.setLevel(logging.INFO)
+
+        if logger.handlers:
+            for handler in logger.handlers:
+                handler.setFormatter(formatter)
+                
+        return logger
+
+    return logging.getLogger()

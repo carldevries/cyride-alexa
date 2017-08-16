@@ -5,6 +5,8 @@ import urllib
 import urllib2
 import logging
 
+logger = logging.getLogger()
+
 # send_request builds a GET request using the given arguments.  The request
 # parameters are encoded if they are given.  The request is then sent and the
 # response object is returned to the calling function.
@@ -33,17 +35,17 @@ def send_request(host, path, params, header_attributes):
     url = host.lower() + path + encodedParams
     request = urllib2.Request(url, headers=header_attributes)
 
-    logging.debug('Sending request to %s', url)
+    logger.debug('Sending request to %s', url)
 
     try:
 
         response = urllib2.urlopen(request)
         code = str(response.getcode())
-        logging.debug('Received response code: %s', code)
+        logger.debug('Received response code: %s', code)
         assert 200 != code, 'The url ' + url + ' returned status code ' + code
 
     except urllib2.URLError as e:
-        logging.error('URLError raised: %s', str(e))
+        logger.error('URLError raised: %s', str(e))
         raise e
 
     return response

@@ -6,40 +6,44 @@ import os
 import xml.etree.ElementTree as ET
 
 from helpers import get_slot_inputs, get_alexa_device_location_inputs, build_response, get_geocode_lat_lon_coordinates, build_prediction_response
-from nextbus import get_route_list, get_route_config, get_predictions
-from nextbusdataparser import get_route_tags, get_closest_stop_tag, get_next_vehicle_prediction
+import nextbus
+import nextbusdataparser
 from mapquest import geocode, reverse_geocode
 from amazon import get_device_address
+
+logger = logging.getLogger()
 
 # next_bus_handler comment
 
 
 def next_bus_handler(requested_route, echo_coordinates):
 
-    logging.info('Requesting NextBus data.')
+    logger.info('Requesting NextBus data.')
 
     agency_name = os.environ['AGENCY_NAME']
     if agency_name is not None and agency_name is not '':
 
-        route_list = get_route_list(agency_name)
+        route_list = nextbus.route_list(agency_name)
         route_list_elements = ET.fromstring(route_list)
-        requested_route_tags = get_route_tags(requested_route, route_list_elements)
+        requested_routes = nextbusdataparser.get_routes(requested_route, route_list_elements)
 
         # Determine which route to use.
-        requested_route_tag = requested_route_tags[0]
-        logging.debug(requested_route_tag)
-        requested_route_config = get_route_config(agency_name, requested_route_tag, True)
+        requested_route = requested_routes[0]
+        requested_route_tag = requested_route.attrib['tag']
+        logger.debug(requested_route_tag)
+        requested_route_config = nextbus.route_config(agency_name, requested_route_tag, True)
         route_config_elements = ET.fromstring(requested_route_config)
         latitude = echo_coordinates['lat']
         longitude = echo_coordinates['lon']
-        closest_stop_tag = get_closest_stop_tag(latitude, longitude, route_config_elements)
+        closest_stop = nextbusdataparser.get_closest_stop(latitude, longitude, route_config_elements)
 
-        if closest_stop_tag is not None:
+        if closest_stop is not None and closest_stop.attrib['tag']:
 
-            predictions = get_predictions(agency_name, requested_route_tag, closest_stop_tag)
+            closest_stop_tag = closest_stop.attrib['tag']
+            predictions = nextbus.predictions(agency_name, requested_route_tag, closest_stop_tag)
             predictions_elements = ET.fromstring(predictions)
-            prediction = get_next_vehicle_prediction(predictions_elements)
-            return prediction
+            prediction = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
+            return (requested_route, closest_stop, prediction)
 
     return None
 
@@ -48,7 +52,7 @@ def next_bus_handler(requested_route, echo_coordinates):
 
 def next_arrival_handler(event):
 
-    logging.info('Processing Next Arrival Intent.')
+    logger.info('Processing Next Arrival Intent.')
     request = event['request']
     context = event['context']
     slot_inputs = get_slot_inputs(request['intent']['slots'])
@@ -59,7 +63,7 @@ def next_arrival_handler(event):
     # Using user given address.
     if 'StreetAddress' in slot_inputs:
 
-        logging.info('The user supplied and adress.')
+        logger.info('The user supplied and adress.')
 
         street_address = slot_inputs['StreetAddress']
         echo_coordinates = request_mapquest_coordinates(street_address)
@@ -87,14 +91,14 @@ def next_arrival_handler(event):
             return build_response(response_text, 'PlainText', False)
     else:
 
-        logging.info('No address given')
+        logger.info('No address given')
         device_location_inputs = get_alexa_device_location_inputs(context)
 
         # An address was not given so if a consent token exists then request
         # the address.
         if device_location_inputs['consent_token'] is not None:
 
-            logging.info('Found a consent token.')
+            logger.info('Found a consent token.')
 
             device_id = device_location_inputs['device_id']
             consent_token = device_location_inputs['consent_token']
@@ -108,7 +112,7 @@ def next_arrival_handler(event):
             # we are good to go. Additional address lines can still be used
             # later if present.
             if address_data['addressLine1'] is not None and address_data['city'] is not None and address_data['stateOrRegion'] is not None:
-                logging.info('Received minimum address components from Amazon.')
+                logger.info('Received minimum address components from Amazon.')
                 # Process the request with the address provided from the device
                 # api.
                 echo_address = concatenate_alexa_address(address_data)
@@ -116,15 +120,15 @@ def next_arrival_handler(event):
 
                 if echo_coordinates is not None:
 
-                    prediction = next_bus_handler(requested_route, echo_coordinates)
+                    (route, stop, prediction) = next_bus_handler(requested_route, echo_coordinates)
                 else:
                     # MapQuest oops
                     pass
 
-                minutes_str = str(prediction['minutes'])
-                minutes_str = minutes_str.split('.')[0]
-                response_text = 'The next ' + requested_route
-                response_text = response_text + ' bus will arrive in <time>.'
+                minutes_str = prediction.attrib['minutes']
+                response_text = 'The next ' + route.attrib['title']
+                response_text = response_text + ' bus will arrive at ' + stop.attrib['title']
+                response_text = response_text + ' in <time>.'
                 # response_text = response_text + minutes_str + ' minutes.'
                 return build_prediction_response(response_text, minutes_str)
             else:
@@ -136,7 +140,7 @@ def next_arrival_handler(event):
                 return build_response(response_text, 'PlainText', False)
         else:
 
-            logging.info('No consent token found')
+            logger.info('No consent token found')
             # Consent token does not exist and user didn't provide an address
             response_text = '''You have not provided an address and you have
                 not given consent to look up your address.  Please say your

@@ -19,41 +19,41 @@ def test_getAgencyTag(agency_list_response, agency_title, expected_agency_tag):
 
 
 @pytest.mark.parametrize('route_name, expected_route_tags',
-    [('1 Red West', ['811']),
-     ('1 Red East', ['810']),
-     ('1A Red West', ['813']),
-     ('1A Red East', ['812']),
-     ('1B Red  East', ['814']),
-     ('2 Green West', ['821']),
-     ('2 Green East', ['820']),
-     ('3 Blue South', ['831']),
-     ('3 Blue North', ['830']),
-     ('3A Blue South', ['832']),
-     ('3B Blue North', ['833']),
-     ('4 Gray', ['840']),
-     ('4A Gray', ['841']),
-     ('5 Yellow', ['850']),
-     ('6 Brown South', ['861']),
-     ('6 Brown North', ['860']),
-     ('6A Towers', ['862']),
-     ('6B Brown', ['863']),
-     ('7 Purple', ['870']),
-     ('9 Plum', ['890']),
-     ('10 Pink', ['910']),
-     ('21 Cardinal', ['921']),
-     ('22 Gold', ['922']),
-     ('23 Orange', ['923']),
-     ('A West', ['991']),
-     ('A East', ['992']),
-     ('B', ['993']),
-     ('C', ['994']),
-     ('D', ['995'])
+    [('1 Red West', '811'),
+     ('1 Red East', '810'),
+     ('1A Red West', '813'),
+     ('1A Red East', '812'),
+     ('1B Red  East', '814'),
+     ('2 Green West', '821'),
+     ('2 Green East', '820'),
+     ('3 Blue South', '831'),
+     ('3 Blue North', '830'),
+     ('3A Blue South', '832'),
+     ('3B Blue North', '833'),
+     ('4 Gray', '840'),
+     ('4A Gray', '841'),
+     ('5 Yellow', '850'),
+     ('6 Brown South', '861'),
+     ('6 Brown North', '860'),
+     ('6A Towers', '862'),
+     ('6B Brown', '863'),
+     ('7 Purple', '870'),
+     ('9 Plum', '890'),
+     ('10 Pink', '910'),
+     ('21 Cardinal', '921'),
+     ('22 Gold', '922'),
+     ('23 Orange', '923'),
+     ('A West', '991'),
+     ('A East', '992'),
+     ('B', '993'),
+     ('C', '994'),
+     ('D', '995')
      ])
-def test_get_route_tag(route_list_response, route_name, expected_route_tags):
+def test_get_routes(route_list_response, route_name, expected_route_tags):
 
     route_list_elements = ET.fromstring(route_list_response)
-    route_tags = nextbusdataparser.get_route_tags(route_name, route_list_elements)
-    assert expected_route_tags == route_tags
+    routes = nextbusdataparser.get_routes(route_name, route_list_elements)
+    assert expected_route_tags == routes[0].attrib['tag']
 
 # Test cases (in order):
 # 4329 Lincoln Swing Street Ames, IA 50014
@@ -65,36 +65,37 @@ def test_get_route_tag(route_list_response, route_name, expected_route_tags):
     [(42.022247, -93.677157, '1185'),
      (42.026913, -93.651913, '1177'),
      (42.032726, -93.611741, '1159')])
-def test_get_closest_stop_tag(route_config_response, lat, lon, expected_stop):
+def test_get_closest_stop(route_config_response, lat, lon, expected_stop):
 
     route_config_elements = ET.fromstring(route_config_response)
-    stop_tag = nextbusdataparser.get_closest_stop_tag(lat, lon, route_config_elements)
-    assert expected_stop == stop_tag
+    stop = nextbusdataparser.get_closest_stop(lat, lon, route_config_elements)
+    assert expected_stop == stop.attrib['tag']
 
 
-@pytest.mark.parametrize('expected_vehicle_data',
-    [({'vehicle': '1116', 'minutes': 78.0})])
-def test_get_next_vehicle_prediction__valid_data(predictions_response, expected_vehicle_data):
+@pytest.mark.parametrize('expected_vehicle, expected_time',
+    [('1116', '78')])
+def test_get_next_vehicle_prediction__valid_data(predictions_response, expected_vehicle, expected_time):
 
     predictions_elements = ET.fromstring(predictions_response)
-    vehicle_data = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
-    assert expected_vehicle_data == vehicle_data
+    prediction = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
+    assert expected_vehicle == prediction.attrib['vehicle']
+    assert expected_time == prediction.attrib['minutes']
 
 
 @pytest.mark.parametrize('expected_vehicle_data', [(None)])
 def test_get_next_vehicle_prediction__no_data(predictions_response_no_data, expected_vehicle_data):
 
     predictions_elements = ET.fromstring(predictions_response_no_data)
-    vehicle_data = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
-    assert expected_vehicle_data == vehicle_data
+    prediction = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
+    assert expected_vehicle_data == prediction
 
 
 @pytest.mark.parametrize('expected_vehicle_data', [(None)])
 def test_get_next_vehicle_prediction__invalid_data(predictions_response_invalid_data, expected_vehicle_data):
 
     predictions_elements = ET.fromstring(predictions_response_invalid_data)
-    vehicle_data = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
-    assert expected_vehicle_data == vehicle_data
+    prediction = nextbusdataparser.get_next_vehicle_prediction(predictions_elements)
+    assert expected_vehicle_data == prediction
 
 
 @pytest.mark.parametrize('vehicle_tag, expected_location',
